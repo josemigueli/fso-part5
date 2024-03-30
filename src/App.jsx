@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import CreateNewBlog from './components/CreateNewBlog'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [alertMessage, setAlertMessage] = useState(null)
   const [updateList, setUpdateList] = useState(true)
+  const [hideBlogForm, setHideBlogForm] = useState(false)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -37,6 +39,11 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedUser')
     setUser(null)
+  }
+
+  const updateAndHide = () => {
+    setUpdateList(!updateList)
+    setHideBlogForm(!hideBlogForm)
   }
 
   const loginForm = () => (
@@ -96,8 +103,11 @@ const App = () => {
       :
       <>
         <p>{user.username} logged in <button onClick={handleLogout}>Logout</button></p>
-        <h2>Create a new blog</h2>
-        <CreateNewBlog updater={() => setUpdateList(!updateList)} />
+
+        <Togglable buttonLabel='Create new blog' hide={hideBlogForm}>
+          <h2>Create new blog</h2>
+          <CreateNewBlog updater={updateAndHide} />
+        </Togglable>
 
         <h2>Blogs</h2>
         {blogs.map(blog =>

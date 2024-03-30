@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState } from 'react'
 import blogService from '../services/blogs'
-import Notification from "./Notification";
+import Notification from './Notification'
 
 const CreateNewBlog = ({ updater }) => {
     const [title, setTitle] = useState('')
@@ -23,7 +23,7 @@ const CreateNewBlog = ({ updater }) => {
             setUrl('')
             setTimeout(() => {
                 setSuccessMessage(null)
-            }, 5000)
+            }, 3000)
         }
         catch (exception){
             setAlertMessage('Something went wrong')
