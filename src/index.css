@@ -1,0 +1,12 @@
+.notification-error {
+    text-align: center;
+    color: red;
+    border: 5px solid red;
+    border-radius: 20px;
+}
+.notification-success {
+    text-align: center;
+    color: green;
+    border: 5px solid green;
+    border-radius: 20px;
+}
