@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
     const [title, setTitle] = useState('')
@@ -8,7 +9,7 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
 
     const handleCreateBlog = async (e) => {
         e.preventDefault()
-        
+
         try {
             await blogService.create({
                 title, author, url
@@ -29,7 +30,7 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
             <form onSubmit={handleCreateBlog}>
                 <div>
                     <label htmlFor='title'>Title</label>
-                    <input 
+                    <input
                         type='text'
                         name='title'
                         id='title'
@@ -40,8 +41,8 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
 
                 <div>
                     <label htmlFor='author'>Author</label>
-                    <input 
-                        type='text' 
+                    <input
+                        type='text'
                         name='author'
                         id='author'
                         value={author}
@@ -51,8 +52,8 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
 
                 <div>
                     <label htmlFor='url'>Url</label>
-                    <input 
-                        type='text' 
+                    <input
+                        type='text'
                         name='url'
                         id='url'
                         value={url}
@@ -63,6 +64,12 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
             </form>
         </div>
     )
+}
+
+CreateNewBlog.propTypes = {
+    updater: PropTypes.func.isRequired,
+    successMessage: PropTypes.func.isRequired,
+    errorMessage: PropTypes.func.isRequired
 }
 
 export default CreateNewBlog

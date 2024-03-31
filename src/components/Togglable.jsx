@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 const Togglable = (props) => {
     const [visible, setVisible] = useState(false)
-    const hideVisible = { display: visible ? 'none' : ''}
+    const hideVisible = { display: visible ? 'none' : '' }
     const showVisible = { display: visible ? '' : 'none' }
 
     const toggleVisibility = () => {
@@ -10,6 +11,7 @@ const Togglable = (props) => {
     }
 
     useEffect(() => {
+        //I tried to solve the ESLint warning for this but adding the missing dependencies cause a bug in the app. I'm sure this is not causing any problems in the app.
         if (visible) {
             toggleVisibility()
         }
@@ -30,6 +32,11 @@ const Togglable = (props) => {
             </div>
         </div>
     )
+}
+
+Togglable.propTypes = {
+    hide: PropTypes.bool.isRequired,
+    buttonLabel: PropTypes.string.isRequired
 }
 
 export default Togglable
