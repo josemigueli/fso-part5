@@ -11,9 +11,24 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [alertMessage, setAlertMessage] = useState(null)
+  const [alerErrortMessage, setAlerErrortMessage] = useState(null)
+  const [alertSuccessMessage, setAlertSuccessMessage] = useState(null)
   const [updateList, setUpdateList] = useState(true)
   const [hideBlogForm, setHideBlogForm] = useState(false)
+
+  const successMessage = (message) => {
+    setAlertSuccessMessage(message)
+    setTimeout(() => {
+      setAlertSuccessMessage(null)
+    }, 3000)
+  }
+
+  const errorMessage = (message) => {
+    setAlerErrortMessage(message)
+    setTimeout(() => {
+      setAlerErrortMessage(null)
+    }, 3000)
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -29,10 +44,7 @@ const App = () => {
       setPassword('')
     }
     catch (exception) {
-      setAlertMessage('Invalid username or password')
-      setTimeout(() => {
-        setAlertMessage(null)
-      }, 5000)
+      errorMessage('Invalid username or password')
     }
   }
 
@@ -73,9 +85,11 @@ const App = () => {
   )
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    (async () => {
+      const getBlogs = await blogService.getAll()
+      getBlogs.sort((a,b) => b.likes - a.likes)
+      setBlogs(getBlogs)
+    })();
   }, [updateList])
 
   useEffect(() => {
@@ -91,8 +105,13 @@ const App = () => {
     <div>
       <h1>Blog List App</h1>
       <Notification 
-        message={alertMessage}
+        message={alerErrortMessage}
         type={'error'}
+      />
+
+      <Notification 
+        message={alertSuccessMessage}
+        type={'success'}
       />
 
       {user === null ?
@@ -102,16 +121,27 @@ const App = () => {
         </>
       :
       <>
-        <p>{user.username} logged in <button onClick={handleLogout}>Logout</button></p>
+        <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
 
-        <Togglable buttonLabel='Create new blog' hide={hideBlogForm}>
+        <Togglable buttonLabel='Create blog' hide={hideBlogForm}>
           <h2>Create new blog</h2>
-          <CreateNewBlog updater={updateAndHide} />
+          <CreateNewBlog 
+            updater={updateAndHide} 
+            successMessage={(message) => successMessage(message)}
+            errorMessage={() => errorMessage('Something went wrong')}
+          />
         </Togglable>
 
         <h2>Blogs</h2>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog 
+            key={blog.id} 
+            blog={blog} 
+            user={user}
+            updater={() => setUpdateList(!updateList)}
+            successMessage={(message) => successMessage(message)}
+            errorMessage={() => errorMessage('Something went wrong')}
+          />
         )}
       </>
       }

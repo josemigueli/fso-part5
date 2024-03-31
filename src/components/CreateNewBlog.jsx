@@ -1,13 +1,10 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
-import Notification from './Notification'
 
-const CreateNewBlog = ({ updater }) => {
+const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
-    const [alertMessage, setAlertMessage] = useState(null)
-    const [successMessage, setSuccessMessage] = useState(null)
 
     const handleCreateBlog = async (e) => {
         e.preventDefault()
@@ -16,33 +13,19 @@ const CreateNewBlog = ({ updater }) => {
             await blogService.create({
                 title, author, url
             })
-            setSuccessMessage(`Blog ${title} by ${author} added`)
             updater()
             setTitle('')
             setAuthor('')
             setUrl('')
-            setTimeout(() => {
-                setSuccessMessage(null)
-            }, 3000)
+            successMessage(`Blog ${title} by ${author} added`)
         }
         catch (exception){
-            setAlertMessage('Something went wrong')
-            setTimeout(() => {
-                setAlertMessage(null)
-            }, 5000)
+            errorMessage()
         }
     }
 
     return (
         <div>
-            <Notification 
-                message={alertMessage}
-                type={'error'}
-            />
-            <Notification
-                message={successMessage}
-                type={'success'}
-            />
             <form onSubmit={handleCreateBlog}>
                 <div>
                     <label htmlFor='title'>Title</label>

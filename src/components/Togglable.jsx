@@ -11,9 +11,7 @@ const Togglable = (props) => {
 
     useEffect(() => {
         if (visible) {
-            setTimeout(() => {
-                toggleVisibility()
-            }, 3000)
+            toggleVisibility()
         }
     }, [props.hide])
 
