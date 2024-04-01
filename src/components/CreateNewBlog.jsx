@@ -32,6 +32,7 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
                     <label htmlFor='title'>Title</label>
                     <input
                         type='text'
+                        placeholder='Title'
                         name='title'
                         id='title'
                         value={title}
@@ -43,6 +44,7 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
                     <label htmlFor='author'>Author</label>
                     <input
                         type='text'
+                        placeholder='Author'
                         name='author'
                         id='author'
                         value={author}
@@ -54,6 +56,7 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
                     <label htmlFor='url'>Url</label>
                     <input
                         type='text'
+                        placeholder='URL'
                         name='url'
                         id='url'
                         value={url}
