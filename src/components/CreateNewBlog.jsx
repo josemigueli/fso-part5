@@ -63,7 +63,7 @@ const CreateNewBlog = ({ updater, successMessage, errorMessage }) => {
                         onChange={({ target }) => setUrl(target.value)}
                     />
                 </div>
-                <button type='submit'>Create</button>
+                <button id='save-blog-button' type='submit'>Create</button>
             </form>
         </div>
     )

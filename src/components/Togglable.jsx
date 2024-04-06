@@ -20,7 +20,7 @@ const Togglable = (props) => {
     return (
         <div>
             <div style={hideVisible}>
-                <button onClick={toggleVisibility}>
+                <button id='create-blog-button' onClick={toggleVisibility}>
                     {props.buttonLabel}
                 </button>
             </div>

@@ -68,7 +68,7 @@ const Blog = ({ blog, user, updater, successMessage, errorMessage }) => {
     }
 
     return (
-        <div style={blogStyle}>
+        <div id='individual-blog' style={blogStyle}>
             <p>
                 <b>{title}</b> by {author}
                 <button onClick={handleShowDetails}>{showDetails ? 'Hide' : 'View'}</button>
