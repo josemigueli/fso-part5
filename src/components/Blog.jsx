@@ -68,24 +68,40 @@ const Blog = ({ blog, user, updater, successMessage, errorMessage }) => {
     }
 
     return (
-        <div id='individual-blog' style={blogStyle}>
+        <div className='individual-blog' style={blogStyle}>
             <p>
                 <b>{title}</b> by {author}
-                <button onClick={handleShowDetails}>{showDetails ? 'Hide' : 'View'}</button>
+                <button 
+                    className='view-hide-blog-details' 
+                    type='button' 
+                    onClick={handleShowDetails}>
+                        {showDetails ? 'Hide' : 'View'}
+                </button>
             </p>
             {showDetails ?
                 <p>
                     <b>URL:</b> {url}
                     <br/>
                     <b>Likes:</b> {likes}
-                    <span><button onClick={updateLikes}>Like</button></span>
+                    <span>
+                        <button 
+                            className='blog-like-button'
+                            type='button'
+                            onClick={updateLikes}>
+                                Like
+                        </button>
+                    </span>
                     {liked === undefined ? null : showLikedMessage(liked)}
                     <br />
                     <b>Added by:</b> {blog.user.name}
                     <br />
                     {user.username === blog.user.username ?
                         <span>
-                            <button onClick={deleteBlog}>Delete</button>
+                            <button 
+                                className='blog-delete-button'
+                                onClick={deleteBlog}>
+                                    Delete
+                            </button>
                         </span>
                         :
                         null
