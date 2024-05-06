@@ -68,7 +68,7 @@ const Blog = ({ blog, user, updater, successMessage, errorMessage }) => {
     }
 
     return (
-        <div className='individual-blog' style={blogStyle}>
+        <div className='blog-container' style={blogStyle}>
             <p>
                 <b>{title}</b> by {author}
                 <button 

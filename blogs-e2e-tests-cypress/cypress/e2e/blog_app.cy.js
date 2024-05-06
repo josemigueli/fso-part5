@@ -65,7 +65,7 @@ describe('Blog app', function() {
           .and('have.css', 'color', 'rgb(0, 128, 0)')
           .and('have.css', 'border-style', 'solid')
 
-      cy.get('.individual-blog').first()
+      cy.get('.blog-container').eq(0)
         .should('contain', 'An awesome blog by Johny Bravo')
         .and('contain', 'View')
         .and('have.css', 'border-style', 'solid')
@@ -77,10 +77,10 @@ describe('Blog app', function() {
       cy.get('#url').type('http://theurioftheblog.com/an-awesome-blog')
       cy.get('#save-blog-button').click()
 
-      cy.get('.view-hide-blog-details').first().click()
-      cy.get('.blog-like-button').first().click()
+      cy.get('.view-hide-blog-details').eq(0).click()
+      cy.get('.blog-like-button').eq(0).click()
       cy.get('span').contains('Liked!')
-      cy.get('.individual-blog').first().contains('Likes: 1')
+      cy.get('.blog-container').eq(0).contains('Likes: 1')
     })
     it('user who created a blog can delete it', function() {
       cy.get('#create-blog-button').click()
@@ -89,8 +89,8 @@ describe('Blog app', function() {
       cy.get('#url').type('http://theurioftheblog.com/an-awesome-blog')
       cy.get('#save-blog-button').click()
 
-      cy.get('.view-hide-blog-details').first().click()
-      cy.get('.blog-delete-button').first().click()
+      cy.get('.view-hide-blog-details').eq(0).click()
+      cy.get('.blog-delete-button').eq(0).click()
 
       cy.get('.notification-success')
           .should('contain', 'Blog An awesome blog by Johny Bravo deleted')
@@ -112,11 +112,39 @@ describe('Blog app', function() {
       cy.get('#password').type('myAwesomePassword')
       cy.get('#login-button').click()
 
-      cy.get('.view-hide-blog-details').first().click()
+      cy.get('.view-hide-blog-details').eq(0).click()
 
-      cy.get('.individual-blog').first()
+      cy.get('.blog-container').eq(0)
         .should('not.contain', 'Delete')
         .should('not.have.class', 'blog-delete-button')
+    })
+    it('blogs are ordered by likes', function() {
+      cy.get('#create-blog-button').click()
+      cy.get('#title').type('An awesome blog')
+      cy.get('#author').type('Johny Bravo')
+      cy.get('#url').type('http://theurioftheblog.com/an-awesome-blog')
+      cy.get('#save-blog-button').click()
+
+      cy.get('#create-blog-button').click()
+      cy.get('#title').type('Just another wonderful blog')
+      cy.get('#author').type('Elvis Presley')
+      cy.get('#url').type('http://theurioftheblog.com/just-anoter-wonderful-blog')
+      cy.get('#save-blog-button').click()
+
+      cy.get('.view-hide-blog-details')
+        .eq(1)
+        .wait(2000)
+        .click()
+
+      cy.get('.blog-like-button').click()
+      cy.get('.blog-like-button')
+        .wait(2000)
+        .click()
+
+      cy.reload()
+
+      cy.get('.blog-container').eq(0).should('contain', 'Just another wonderful blog by Elvis Presley')
+      cy.get('.blog-container').eq(1).should('contain', 'An awesome blog by Johny Bravo')
     })
   })
 })
